@@ -1,0 +1,13 @@
+import os
+
+NUM_REPLICAS = 2
+STORAGE_PATH = os.environ["STORAGE_PATH"]
+
+
+APPROACH2_MASTER_REPLICAS = 1
+APPROACH2_WORKER_REPLICAS = 1
+APPROACH2_PLANNER_PARTITIONS = 4
+
+UUID_PATTERN = (
+    r"\b([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12})\b"
+)

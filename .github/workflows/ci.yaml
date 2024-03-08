@@ -1,0 +1,31 @@
+name: Server-CI-Test
+
+on:
+  pull_request:
+    branches:
+    - release/*
+    - main
+  workflow_dispatch:
+# # When this workflow is queued, automatically cancel any previous running
+# # or pending jobs from the same branch
+# concurrency:
+#   group: style-${{ github.head_ref }}
+#   cancel-in-progress: true
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Install dependencies
+        run: |
+          pip3 install awscli
+          pip3 install -r requirements.txt
+          pip3 install -r dev-requirements.txt
+      - name: Run Pytest
+        run: |
+          cd src/
+          python -m pytest -s
