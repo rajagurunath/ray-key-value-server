@@ -1,11 +1,11 @@
 import random
 import re
 import uuid
-from typing import Dict
+from typing import Annotated, Dict
 
 import ray
 import requests
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from ray import serve
 from ray.serve.handle import DeploymentHandle
 
@@ -14,6 +14,7 @@ from app.conf import (
     APPROACH2_PLANNER_PARTITIONS,
     APPROACH2_WORKER_REPLICAS,
     STORAGE_PATH,
+    UUID_PATTERN,
 )
 
 ray.data.DataContext.get_current().execution_options.verbose_progress = True
@@ -55,8 +56,8 @@ class KVStoreMaster:
     #                                  name=f"KVStoreWorker_{k}")(KVWorker).bind(v)
     #   self.mod_actor[k] = KVWorker.bind(v)
 
-    @app.get("/{key}")
-    def get_value(self, key):
+    @app.get("/")
+    def get_value(self, key: Annotated[str | None, Query(pattern=UUID_PATTERN)]):
         # given_key_mod = uuid.UUID(key).int%(APPROACH2_PLANNER_PARTITIONS)
         given_key_mod = 3
         print(key, given_key_mod)

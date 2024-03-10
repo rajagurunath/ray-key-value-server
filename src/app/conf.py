@@ -1,7 +1,12 @@
 import os
 
+# curr_dir =
+curr_dir = os.path.dirname(os.path.realpath(__file__))
+
+resource_dir = os.path.dirname(curr_dir) + "/resources/example.input.data"
+print(resource_dir)
 NUM_REPLICAS = 2
-STORAGE_PATH = os.environ["STORAGE_PATH"]
+STORAGE_PATH = os.environ.get("STORAGE_PATH", resource_dir)
 
 
 APPROACH2_MASTER_REPLICAS = 1
